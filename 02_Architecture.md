@@ -17,4 +17,8 @@ Les **flèches pleines** représentent des appels de programmes (`CALL`), les **
 
 => **prompt 2/2** : ce diagram est ilisible, propose-moi autre chose
 
-[Diagramme d'architecture](https://github.com/annieherieau/Bob_FLGHT400/blob/main/architecture-flght401-flight-reservation-system.html)
+[Diagramme d'architecture html](https://github.com/annieherieau/Bob_FLGHT400/blob/main/architecture-flght401-flight-reservation-system.html)
+
+<img width="821" height="1094" alt="image" src="https://github.com/user-attachments/assets/9265bae0-182e-48a5-91c8-1f77c9b0be43" />
+<img width="1065" height="895" alt="image" src="https://github.com/user-attachments/assets/95e8a70a-c357-4b37-aa67-3b07206b6f3a" />
+
