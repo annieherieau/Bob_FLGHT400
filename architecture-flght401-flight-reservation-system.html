@@ -1,0 +1,500 @@
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Architecture FLGHT401</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    background: #ffffff;
+    color: #1f2328;
+    padding: 32px 24px;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: #57606a;
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+
+  /* ── GRID PRINCIPALE ── */
+  .arch {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* ── LIGNE ── */
+  .row {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 0;
+  }
+  .row-1 { grid-template-columns: 1fr; }
+  .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .row-2 { grid-template-columns: 1fr 1fr; }
+  .row-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  /* ── FLÈCHE VERTICALE ── */
+  .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 4px 0;
+    color: #57606a;
+    font-size: 11px;
+    gap: 1px;
+  }
+  .arrow-down .line {
+    width: 2px;
+    height: 18px;
+    background: #cbd5e1;
+  }
+  .arrow-down .head {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #cbd5e1;
+  }
+  .arrow-down .label {
+    color: #57606a;
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  /* ── LAYER ── */
+  .layer {
+    border: 1.5px solid;
+    border-radius: 8px;
+    padding: 10px 14px 12px;
+  }
+  .layer-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  /* ── COULEURS PAR COUCHE ── */
+  .l-user    { background:#f0f9ff; border-color:#7dd3fc; }
+  .l-user    .layer-title { color:#0369a1; }
+  .l-auth    { background:#dbeafe; border-color:#3b82f6; }
+  .l-auth    .layer-title { color:#1d4ed8; }
+  .l-menu    { background:#f0fdf4; border-color:#4ade80; }
+  .l-menu    .layer-title { color:#15803d; }
+  .l-resa    { background:#fef9c3; border-color:#facc15; }
+  .l-resa    .layer-title { color:#854d0e; }
+  .l-maint   { background:#fff7ed; border-color:#fb923c; }
+  .l-maint   .layer-title { color:#9a3412; }
+  .l-report  { background:#fdf4ff; border-color:#c084fc; }
+  .l-report  .layer-title { color:#7e22ce; }
+  .l-popup   { background:#f0fdfa; border-color:#2dd4bf; }
+  .l-popup   .layer-title { color:#0f766e; }
+  .l-db      { background:#f8fafc; border-color:#94a3b8; }
+  .l-db      .layer-title { color:#334155; }
+  .l-batch   { background:#fef2f2; border-color:#fca5a5; }
+  .l-batch   .layer-title { color:#991b1b; }
+  .l-api     { background:#f1f5f9; border-color:#94a3b8; }
+  .l-api     .layer-title { color:#475569; }
+
+  /* ── BLOCS PROGRAMME ── */
+  .prg {
+    background: rgba(255,255,255,0.75);
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 5px;
+    padding: 5px 8px;
+    margin-bottom: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .prg:last-child { margin-bottom: 0; }
+  .prg .name {
+    font-weight: 700;
+    font-size: 11px;
+    white-space: nowrap;
+    min-width: 72px;
+    color: #1f2328;
+  }
+  .prg .desc {
+    color: #57606a;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-left: 3px;
+  }
+  .tag-rpg  { background:#fef9c3; color:#854d0e; }
+  .tag-rpgle { background:#dbeafe; color:#1d4ed8; }
+  .tag-clp  { background:#f0fdf4; color:#166534; }
+  .tag-dds  { background:#fdf4ff; color:#7e22ce; }
+
+  /* ── TABLES DB ── */
+  .db-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+  .db-tbl {
+    background: rgba(255,255,255,0.8);
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 5px 7px;
+  }
+  .db-tbl .tname {
+    font-weight: 700;
+    font-size: 11px;
+    color: #1f2328;
+    margin-bottom: 2px;
+  }
+  .db-tbl .tfields {
+    font-size: 10px;
+    color: #57606a;
+    line-height: 1.5;
+  }
+  .db-tbl .tlf {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-top: 2px;
+  }
+
+  /* ── SECTION CALLS (TABLEAU) ── */
+  .call-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+  .call-table th {
+    background: rgba(0,0,0,0.06);
+    text-align: left;
+    padding: 4px 8px;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #57606a;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .call-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    vertical-align: top;
+  }
+  .call-table tr:last-child td { border-bottom: none; }
+  .call-table .caller { font-weight: 700; color: #1f2328; }
+  .call-table .callee { color: #3b82d4; }
+  .call-table .reason { color: #57606a; font-size: 10px; }
+
+  /* ── LÉGENDE ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #57606a;
+  }
+  .leg-dot {
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── SÉPARATEURS ── */
+  .sep {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 20px 0;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-h {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1f2328;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+  .section-h:first-of-type { margin-top: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 40px;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+  }
+</style>
+</head>
+<body>
+
+<h1>Flight Reservation System — Architecture</h1>
+<p class="subtitle">Bibliothèque FLGHT401 · IBM i (AS/400) · RPG III / ILE RPGLE · DB2 for i</p>
+
+
+<p class="section-h">Couches applicatives</p>
+
+<div class="arch">
+
+  
+  <div class="row row-1">
+    <div class="layer l-user">
+      <div class="layer-title">Utilisateur</div>
+      <div class="prg">
+        <span class="name">Terminal 5250</span>
+        <span class="desc">Agent de réservation — interface écran vert (WORKSTN)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down"><div class="line"></div><div class="head"></div><div class="label">connexion</div></div>
+
+  
+  <div class="row row-1">
+    <div class="layer l-auth">
+      <div class="layer-title">Authentification</div>
+      <div class="prg">
+        <span class="name">FRS000<span class="tag tag-rpg">RPG</span></span>
+        <span class="desc">Écran de connexion — saisie nom d'agent + mot de passe, validation dans AGENTS, aiguillage vers le mode (CREATE / UPDATE / DSPLAY / DELETE / FAX / MAINT / REPORT)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down"><div class="line"></div><div class="head"></div><div class="label">menu principal</div></div>
+
+  
+  <div class="row row-3">
+    <div class="layer l-menu">
+      <div class="layer-title">Menu principal</div>
+      <div class="prg"><span class="name">FRSMAIN<span class="tag tag-dds">DDS</span></span><span class="desc">Opt 1–5 : réservations<br />Opt 10 : maintenance<br />Opt 20 : rapports<br />Opt 90 : déconnexion</span></div>
+    </div>
+    <div class="layer l-menu">
+      <div class="layer-title">Menu maintenance</div>
+      <div class="prg"><span class="name">FRSMANT<span class="tag tag-dds">DDS</span></span><span class="desc">1 Clients<br />2 Horaires vols<br />3 Villes<br />4 Compagnies<br />5 Agents</span></div>
+    </div>
+    <div class="layer l-menu">
+      <div class="layer-title">Menu rapports</div>
+      <div class="prg"><span class="name">FRSREPT<span class="tag tag-dds">DDS</span></span><span class="desc">1 Cmdes/agent (imp.)<br />2 Cmdes/agent (écran)<br />3 Pass./vol (imp.)<br />4 Pass./vol (écran)</span></div>
+    </div>
+  </div>
+
+  <div class="arrow-down"><div class="line"></div><div class="head"></div></div>
+
+  
+  <div class="row row-3">
+
+    
+    <div class="layer l-resa">
+      <div class="layer-title">Réservations (CRUD)</div>
+      <div class="prg"><span class="name">FRS001<span class="tag tag-rpg">RPG</span></span><span class="desc">Créer une réservation (vols, client, classe, billets, date)</span></div>
+      <div class="prg"><span class="name">FRS002<span class="tag tag-rpg">RPG</span></span><span class="desc">Modifier une réservation existante</span></div>
+      <div class="prg"><span class="name">FRS003<span class="tag tag-rpg">RPG</span></span><span class="desc">Consulter une réservation</span></div>
+      <div class="prg"><span class="name">FRS004<span class="tag tag-rpg">RPG</span></span><span class="desc">Supprimer une réservation</span></div>
+      <div class="prg"><span class="name">FRS005<span class="tag tag-rpg">RPG</span></span><span class="desc">Envoyer la réservation par fax</span></div>
+      <div class="prg"><span class="name">FRS009<span class="tag tag-rpgle">FREE</span></span><span class="desc">Sélection/recherche de commande (sous-fichier)</span></div>
+      <div class="prg"><span class="name">FRS406<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Confirmation et finalisation commande</span></div>
+    </div>
+
+    
+    <div class="layer l-maint">
+      <div class="layer-title">Maintenance référentiels</div>
+      <div class="prg"><span class="name">FRS021<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Horaires de vols (FLIGHTS)</span></div>
+      <div class="prg"><span class="name">FRS022<span class="tag tag-rpg">RPG</span></span><span class="desc">Fichier clients (CUSTOMERS)</span></div>
+      <div class="prg"><span class="name">FRS023<span class="tag tag-rpg">RPG</span></span><span class="desc">Table villes de départ (FRCITY)</span></div>
+      <div class="prg"><span class="name">FRS024<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Table villes d'arrivée (TOCITY)</span></div>
+      <div class="prg"><span class="name">FRS025<span class="tag tag-rpg">RPG</span></span><span class="desc">Table compagnies aériennes (AIRLINE)</span></div>
+    </div>
+
+    
+    <div class="layer l-report">
+      <div class="layer-title">Rapports &amp; éditions</div>
+      <div class="prg"><span class="name">FRS408<span class="tag tag-rpg">RPG</span></span><span class="desc">Commandes par agent — tous agents (imprimé)</span></div>
+      <div class="prg"><span class="name">FRS409<span class="tag tag-rpg">RPG</span></span><span class="desc">Commandes par agent sélectionné (écran)</span></div>
+      <div class="prg"><span class="name">FRS410<span class="tag tag-rpg">RPG</span></span><span class="desc">Passagers par vol sélectionné (imprimé)</span></div>
+      <div class="prg"><span class="name">FRS411<span class="tag tag-rpg">RPG</span></span><span class="desc">Passagers par vol sélectionné (écran)</span></div>
+      <div class="prg"><span class="name">FRS411CL<span class="tag tag-clp">CLP</span></span><span class="desc">Wrapper d'affichage du rapport (animation)</span></div>
+    </div>
+
+  </div>
+
+  <div class="arrow-down"><div class="line"></div><div class="head"></div><div class="label">sélection assistée (F4–F8)</div></div>
+
+  
+  <div class="row row-4" style="grid-template-columns:1fr 1fr 1fr 1fr 1fr">
+    <div class="layer l-popup">
+      <div class="layer-title">Agents</div>
+      <div class="prg"><span class="name">FRS401<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Fenêtre sélection agent (sous-fichier + recherche)</span></div>
+    </div>
+    <div class="layer l-popup">
+      <div class="layer-title">Villes départ</div>
+      <div class="prg"><span class="name">FRS402<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Sélection ville de départ (FRCITY)</span></div>
+    </div>
+    <div class="layer l-popup">
+      <div class="layer-title">Villes arrivée</div>
+      <div class="prg"><span class="name">FRS403<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Sélection ville d'arrivée (TOCITY)</span></div>
+    </div>
+    <div class="layer l-popup">
+      <div class="layer-title">Compagnies</div>
+      <div class="prg"><span class="name">FRS412<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Sélection compagnie aérienne (AIRLINE)</span></div>
+    </div>
+    <div class="layer l-popup">
+      <div class="layer-title">Vols</div>
+      <div class="prg"><span class="name">FRS413<span class="tag tag-rpgle">RPGLE</span></span><span class="desc">Sélection vol complet (FLIGHTS)</span></div>
+    </div>
+  </div>
+
+  <div class="arrow-down"><div class="line"></div><div class="head"></div><div class="label">lecture / écriture</div></div>
+
+  
+  <div class="layer l-db">
+    <div class="layer-title">Base de données DB2 for i — Fichiers physiques (PF) &amp; logiques (LF)</div>
+    <div class="db-grid">
+      <div class="db-tbl">
+        <div class="tname">AGENTS</div>
+        <div class="tfields">N° agent · Nom · Mot de passe</div>
+        <div class="tlf">→ AGENTSL (tri nom)</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">CUSTOMERS</div>
+        <div class="tfields">N° client · Nom client</div>
+        <div class="tlf">→ CUSTNAME · CUSTOMER · CUSTOMRZ · CUSTORD</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">ORDERS</div>
+        <div class="tfields">N° commande · N° agent · N° client · N° vol · Date · Billets · Classe · Signature</div>
+        <div class="tlf">→ ORDNAME · ORDERSZ · ORDDATE</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">FLIGHTS</div>
+        <div class="tfields">N° vol · Départ/Arrivée · Jour · Horaires · Compagnie · Places · Prix · Km</div>
+        <div class="tlf">→ FLIGHTSL · FLIGHTSZ</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">FRCITY</div>
+        <div class="tfields">Nom · Initiales · Compagnie · Type appareil · N°</div>
+        <div class="tlf">→ FRCITYL</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">TOCITY</div>
+        <div class="tfields">Nom · Initiales · Type appareil</div>
+        <div class="tlf">→ TOCITYL</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">AIRLINE</div>
+        <div class="tfields">Nom compagnie · Initiales (3 car.)</div>
+        <div class="tlf">→ AIRLINEL</div>
+      </div>
+      <div class="db-tbl">
+        <div class="tname">LNAME / FNAME</div>
+        <div class="tfields">Noms · Prénoms</div>
+        <div class="tlf">→ FNEXTO</div>
+      </div>
+      <div class="db-tbl" style="visibility:hidden"></div>
+    </div>
+  </div>
+
+</div>
+
+
+<p class="section-h">Appels inter-programmes principaux</p>
+
+<div style="max-width:760px;margin:0 auto">
+  <table class="call-table">
+    <thead>
+      <tr>
+        <th>Appelant</th>
+        <th>Appelle</th>
+        <th>Déclencheur</th>
+        <th>Objet</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="caller">FRS000</td><td class="callee">FRS001</td><td>Mode = CREATE</td><td class="reason">Créer une nouvelle réservation</td></tr>
+      <tr><td class="caller">FRS000</td><td class="callee">FRS009</td><td>Mode = UPDATE / DSPLAY / DELETE / FAX</td><td class="reason">Rechercher une commande existante</td></tr>
+      <tr><td class="caller">FRS000</td><td class="callee">FRS401</td><td>F4</td><td class="reason">Sélectionner un agent (fenêtre popup)</td></tr>
+      <tr><td class="caller">FRS000</td><td class="callee">GO FRSMANT</td><td>Mode = MAINT</td><td class="reason">Accéder au menu maintenance</td></tr>
+      <tr><td class="caller">FRS000</td><td class="callee">GO FRSREPT</td><td>Mode = REPORT</td><td class="reason">Accéder au menu rapports</td></tr>
+      <tr><td class="caller">FRS001</td><td class="callee">FRS402</td><td>F4</td><td class="reason">Sélection ville de départ</td></tr>
+      <tr><td class="caller">FRS001</td><td class="callee">FRS403</td><td>F5</td><td class="reason">Sélection ville d'arrivée</td></tr>
+      <tr><td class="caller">FRS001</td><td class="callee">FRS413</td><td>F6</td><td class="reason">Sélection vol</td></tr>
+      <tr><td class="caller">FRS001</td><td class="callee">FRS401</td><td>F7 (client nouveau)</td><td class="reason">Sélection / création client</td></tr>
+      <tr><td class="caller">FRS001</td><td class="callee">FRS406</td><td>F10 (confirmation)</td><td class="reason">Confirmer et finaliser la commande</td></tr>
+      <tr><td class="caller">FRS009</td><td class="callee">FRS002</td><td>Opt UPDATE</td><td class="reason">Modifier la réservation sélectionnée</td></tr>
+      <tr><td class="caller">FRS009</td><td class="callee">FRS003</td><td>Opt DSPLAY</td><td class="reason">Afficher la réservation</td></tr>
+      <tr><td class="caller">FRS009</td><td class="callee">FRS004</td><td>Opt DELETE</td><td class="reason">Supprimer la réservation</td></tr>
+      <tr><td class="caller">FRS009</td><td class="callee">FRS005</td><td>Opt FAX</td><td class="reason">Envoyer par fax</td></tr>
+      <tr><td class="caller">FRS021</td><td class="callee">FRS402 / FRS403</td><td>F6 / F7</td><td class="reason">Sélection villes départ/arrivée</td></tr>
+      <tr><td class="caller">FRS021</td><td class="callee">FRS412</td><td>F8</td><td class="reason">Sélection compagnie aérienne</td></tr>
+      <tr><td class="caller">FRS021</td><td class="callee">FRS413</td><td>F4</td><td class="reason">Sélection vol complet</td></tr>
+      <tr><td class="caller">Tous</td><td class="callee">QMHSNDPM / QMHRMVPM</td><td>Erreur / Info</td><td class="reason">Envoi / suppression de messages programme</td></tr>
+      <tr><td class="caller">Tous</td><td class="callee">QUSCMDLN</td><td>F9</td><td class="reason">Affichage ligne de commande IBM i</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<p class="section-h">Utilitaires &amp; batch</p>
+
+<div style="max-width:760px;margin:0 auto">
+  <div class="row row-3" style="grid-template-columns:1fr 1fr 1fr">
+    <div class="layer l-batch">
+      <div class="layer-title">Chargement initial</div>
+      <div class="prg"><span class="name">BCUST<span class="tag tag-rpg">RPG</span></span><span class="desc">Alimentation batch de CUSTOMERS</span></div>
+      <div class="prg"><span class="name">BFLGHT<span class="tag tag-rpg">RPG</span></span><span class="desc">Alimentation batch de FLIGHTS</span></div>
+    </div>
+    <div class="layer l-batch">
+      <div class="layer-title">Remise à zéro</div>
+      <div class="prg"><span class="name">RTSEED<span class="tag tag-clp">CLP</span></span><span class="desc">Réinitialisation données de test</span></div>
+      <div class="prg"><span class="name">USERESET<span class="tag tag-clp">CLP</span></span><span class="desc">Commande de reset utilisateur</span></div>
+      <div class="prg"><span class="name">USECLEAR<span class="tag tag-clp">CLP</span></span><span class="desc">Commande de nettoyage</span></div>
+    </div>
+    <div class="layer l-batch">
+      <div class="layer-title">Utilitaires RPG</div>
+      <div class="prg"><span class="name">RTRAND<span class="tag tag-rpg">RPG</span></span><span class="desc">Générateur de nombres aléatoires</span></div>
+      <div class="prg"><span class="name">RTDOFW<span class="tag tag-rpg">RPG</span></span><span class="desc">Calcul du jour de la semaine</span></div>
+      <div class="prg"><span class="name">BLDCST<span class="tag tag-clp">CLP</span></span><span class="desc">Construction des coûts de vol</span></div>
+    </div>
+  </div>
+</div>
+
+
+<div style="max-width:760px;margin:20px auto 0">
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#fef9c3;border:1px solid #facc15"></div>RPG III fixe (OPM)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#dbeafe;border:1px solid #3b82f6"></div>ILE RPGLE (modernisé)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#f0fdf4;border:1px solid #4ade80"></div>CLP</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fdf4ff;border:1px solid #c084fc"></div>DDS (écrans / fichiers)</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#f0fdfa;border:1px solid #2dd4bf"></div>Popup / sous-fichier (SFLCTL)</div>
+  </div>
+</div>
+
+<footer>Made with IBM Bob</footer>
+</body>
+</html>
